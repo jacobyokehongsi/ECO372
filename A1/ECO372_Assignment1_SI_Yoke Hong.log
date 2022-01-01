@@ -1,0 +1,227 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  D:\UofT\Y2 Winter\ECO372\Assignment 1\ECO372_Assignment1_SI_Yoke Hong.log
+  log type:  text
+ opened on:   1 Feb 2021, 03:58:51
+
+. set more off    // This tells Stata to automatically continue if displays exceed screen capacity, instead of making the user click
+
+. clear                   // Removes any data from memory every time this script is run.
+
+. set seed `studentnumber' // Fixes randomization issues
+
+. display "ECO372_Assignment1 " _n "`surname' `firstname' `studentnumber'" _n c(current_date) c(current_time)
+ECO372_Assignment1 
+SI Yoke Hong 1005815806
+ 1 Feb 202103:58:51
+
+.                                                                                                                                                 
+. 
+. /*      ====================================
+>         ============ EXERCISE  =============
+>         ==================================== */
+. 
+. use "datasets/BurdeLinden_2013.dta", clear                      
+
+. datasignature                                                                           // checks data integrity                        
+  1728:40(88608):1591026873:2166370196
+
+. 
+. // your code for the Exercise questions goes below this
+. describe // question b (i), (ii)
+
+Contains data from datasets/BurdeLinden_2013.dta
+  obs:         1,728                          
+ vars:            40                          22 Jan 2021 21:24
+                                              (_dta has notes)
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+f07_hh_id       str15   %15s                  Household ID for spring 2008 survey
+s08_heads_chi~t float   %9.0g                 Indicator set to one if the child is the son or daughter of the head of the hous
+s08_girls_cnt   float   %9.0g                 Indicator set to one if the child is female, spring 2008
+s08_age_cnt     float   %9.0g                 Child's age, spring 2008
+s08_duration_~t float   %9.0g                 Length of time family has lived in the village, spring 2008
+s08_age_head_~t float   %9.0g                 Age of head of the household, spring 2008
+s08_yrs_ed_he~t float   %9.0g                 Years of education of the head of the household, spring 2008
+s08_num_ppl_h~t float   %9.0g                 Number of people in the household, spring 2008
+s08_jeribs_cnt  float   %9.0g                 Number of jeribs of land owned by household, spring 2008
+s08_num_sheep~t float   %9.0g                 Number of sheeps and goats owned by the household, spring 2008
+s08_farsi_cnt   float   %9.0g                 Family speaks farsi, spring 2008
+s08_tajik_cnt   float   %9.0g                 Family speaks tajik, spring 2008
+s08_farmer_cnt  float   %9.0g                 Family head is a farmer, spring 2008
+s08_test_obse~d float   %9.0g                 Indicator set to one if child took test in spring 2008 survey
+f07_heads_chi~t float   %9.0g                 Indicator set to one if the child is the son or daughter of the head of the hous
+f07_girl_cnt    float   %9.0g                 Indicator set to one if the child is female, fall 2007
+f07_age_cnt     float   %9.0g                 Child's age, fall 2007
+f07_age_head_~t byte    %10.0g                Age of head of the household, fall 2007
+f07_yrs_ed_he~t float   %9.0g                 Years of education of the head of the household, fall 2007
+f07_jeribs_cnt  double  %10.0g                Number of jeribs of land owned by household, fall 2007
+f07_num_sheep~t byte    %8.0g                 Number of sheeps and goats owned by the household, fall 2007
+f07_duration_~t float   %9.0g                 Length of time family has lived in the village, fall 2007
+f07_farsi_cnt   float   %9.0g                 Family speaks farsi, fall 2007
+f07_tajik_cnt   float   %9.0g                 Family speaks tajik, fall 2007
+f07_farmer_cnt  float   %9.0g                 Family head is a farmer, fall 2007
+f07_num_ppl_h~t float   %9.0g                 Number of people in the household, fall 2007
+f07_test_obse~d float   %9.0g                 Indicator set to one if child took test in fall 2007 survey
+f07_observed    float   %9.0g                 Indicator set to one if child is observed in fall 2007 survey
+s08_observed    float   %9.0g                 Indicator set to one if child is observed in spring 2008 survey
+treatment       float   %9.0g                 Indicator set to one if village group assigned to treatment
+clustercode     float   %9.0g                 Village Group ID
+chagcharan      float   %9.0g                 Indicator set to one if the village is located in Chagcharan district
+f07_formal_sc~l float   %9.0g                 Indictor set to one if the child is enrolled in a formal school, fall 2007
+s08_formal_sc~l float   %9.0g                 Total normalized test score, spring 2008
+f07_nearest_scl float   %9.0g                 Distance (miles) to the nearest non-community based school, fall 2007
+s08_nearest_scl float   %9.0g                 Distance (miles) to the nearest non-community based school, spring 2008
+f07_both_norm~l float   %9.0g                 Total normalized test score, fall 2007
+s08_both_norm~l float   %9.0g                 Indictor set to one if the child is enrolled in a formal school, spring 2008
+s08_hh_id       str8    %9s                   
+observation_id  float   %9.0g                 Child ID
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Sorted by: 
+
+. browse // question b (iii), (v) and (vi)
+
+. 
+. 
+. count if treatment == 1 // question b.(iv) no. of participants in village with school
+  892
+
+. count if treatment == 0 // question b.(iv) no. of participants in village without school
+  836
+
+. 
+. graph bar f07_both_norma_total, over(treatment) // question d bar graph where 0 is control and 1 is treatment
+
+. 
+. ttest f07_both_norma_total, by(treatment) unequal // question e, conducting ttest for test scores of both genders
+
+Two-sample t test with unequal variances
+------------------------------------------------------------------------------
+   Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+       0 |     653   -.0068562    .0389941     .996449   -.0834252    .0697129
+       1 |     721    .5798561     .039723    1.066619    .5018694    .6578427
+---------+--------------------------------------------------------------------
+combined |   1,374    .3010183    .0289809    1.074249    .2441667    .3578699
+---------+--------------------------------------------------------------------
+    diff |           -.5867122    .0556637               -.6959075   -.4775169
+------------------------------------------------------------------------------
+    diff = mean(0) - mean(1)                                      t = -10.5403
+Ho: diff = 0                     Satterthwaite's degrees of freedom =  1370.68
+
+    Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = 0.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 1.0000
+
+. 
+. kdensity f07_both_norma_total if f07_girl_cnt == 1, title("Fall 2007 test scores for girls only") // question h, distribution of Fall 2007 test scores for girls only
+
+. 
+. // some additional data to help answer question h
+. tabulate f07_girl_cnt
+
+  Indicator |
+ set to one |
+     if the |
+   child is |
+    female, |
+  fall 2007 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |        802       53.43       53.43
+          1 |        699       46.57      100.00
+------------+-----------------------------------
+      Total |      1,501      100.00
+
+. count if treatment == 1 & f07_girl_cnt == 1 // no. of girls who receive treatment
+  373
+
+. count if treatment == 0 & f07_girl_cnt == 1 // no. of girls who did not receive treatment
+  326
+
+. 
+. ttest f07_both_norma_total if f07_girl_cnt == 1, by(treatment) unequal // question i, ttest for test scores of girls
+
+Two-sample t test with unequal variances
+------------------------------------------------------------------------------
+   Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+       0 |     310   -.3582405    .0431518    .7597654   -.4431489    -.273332
+       1 |     357     .388164    .0530896    1.003099    .2837553    .4925727
+---------+--------------------------------------------------------------------
+combined |     667    .0412594    .0376297    .9718381   -.0326278    .1151465
+---------+--------------------------------------------------------------------
+    diff |           -.7464044    .0684148               -.8807439    -.612065
+------------------------------------------------------------------------------
+    diff = mean(0) - mean(1)                                      t = -10.9100
+Ho: diff = 0                     Satterthwaite's degrees of freedom =   653.27
+
+    Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = 0.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 1.0000
+
+. 
+. ttest f07_yrs_ed_head_cnt, by(treatment) unequal // question k, ttest for level of education head of household
+
+Two-sample t test with unequal variances
+------------------------------------------------------------------------------
+   Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+       0 |     716     3.09148    .1327689    3.552653    2.830817    3.352144
+       1 |     785    3.301911    .1261432    3.534261    3.054292    3.549529
+---------+--------------------------------------------------------------------
+combined |   1,501    3.201532    .0914603    3.543425    3.022129    3.380936
+---------+--------------------------------------------------------------------
+    diff |           -.2104304    .1831384               -.5696679    .1488071
+------------------------------------------------------------------------------
+    diff = mean(0) - mean(1)                                      t =  -1.1490
+Ho: diff = 0                     Satterthwaite's degrees of freedom =  1484.95
+
+    Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = 0.1254         Pr(|T| > |t|) = 0.2507          Pr(T > t) = 0.8746
+
+. 
+. // question l, generating variables
+. generate randvar = runiform(0,1)
+
+. generate randvar1 = 1 if randvar >= 0.5
+(847 missing values generated)
+
+. replace randvar1 = 0 if randvar < 0.5
+(847 real changes made)
+
+. count if randvar1 == 1
+  881
+
+. count if randvar1 == 0
+  847
+
+. 
+. ttest f07_both_norma_total, by(randvar1) unequal // question m, ttest for generated variables
+
+Two-sample t test with unequal variances
+------------------------------------------------------------------------------
+   Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+       0 |     662     .277881    .0413648     1.06429    .1966587    .3591033
+       1 |     712    .3225308    .0406145    1.083731    .2427921    .4022695
+---------+--------------------------------------------------------------------
+combined |   1,374    .3010183    .0289809    1.074249    .2441667    .3578699
+---------+--------------------------------------------------------------------
+    diff |           -.0446498    .0579706               -.1583707    .0690711
+------------------------------------------------------------------------------
+    diff = mean(0) - mean(1)                                      t =  -0.7702
+Ho: diff = 0                     Satterthwaite's degrees of freedom =  1367.89
+
+    Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = 0.2207         Pr(|T| > |t|) = 0.4413          Pr(T > t) = 0.7793
+
+. 
+. /*      =============================================================
+>         ============    FINAL COMMANDS  (do not change) ============
+>         ============================================================= */
+. log close                               // closes your log file
+      name:  <unnamed>
+       log:  D:\UofT\Y2 Winter\ECO372\Assignment 1\ECO372_Assignment1_SI_Yoke Hong.log
+  log type:  text
+ closed on:   1 Feb 2021, 03:58:53
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
